@@ -1,3 +1,4 @@
+import time
 import cv2
 import numpy as np
 
@@ -40,11 +41,25 @@ def projectCenter(img1, img2):
 
 
 
-def printResult(img, x, y):
-    img_proj = cv2.circle(img, (x, y), 5, (0, 0, 255), -1)
-    cv2.imshow('Projected Image', img_proj)
+def printResult(img1, img2, x, y):
+    img_proj = cv2.circle(img2, (x, y), 5, (0, 0, 255), -1)
+    cv2.imshow('ProjectedImage', img_proj)
+
+    height_camera = img1.shape[0]
+    width_camera = img1.shape[1]
+    cv2.line(img1, (0, int(height_camera/2)), (width_camera, int(height_camera/2)), (0, 0, 255), 1)
+    cv2.line(img1, (int(width_camera/2), 0), (int(width_camera/2), height_camera), (0, 0, 255), 1)
+
+    cv2.imshow('CameraShot', img1)
+    time.sleep(2)
+    print("Press Key to close Analysis")
+    cv2.waitKey(0)
+    cv2.destroyWindow('ProjectedImage')
+    cv2.destroyWindow('CameraShot')
 
 
 def cleanup():
+    time.sleep(2)
+    input("Press Enter to end the program")
     cv2.waitKey(0)
     cv2.destroyAllWindows()
